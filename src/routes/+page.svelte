@@ -1,2 +1,14 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script>
+	import Window from '$lib/components/Window.svelte';
+</script>
+
+<h1>Blue Jump</h1>
+<Window />
+
+<style>
+	h1 {
+		text-align: center;
+		font-size: 3rem;
+		font-family: fantasy;
+	}
+</style>
