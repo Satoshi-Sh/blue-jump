@@ -4,9 +4,17 @@
 	let height = 5;
 	const moveLeft = () => {
 		position -= 1;
+		if (position < 0) {
+			// Reset the position to the left
+			position = 87;
+		}
 	};
 	const moveRight = () => {
 		position += 1;
+		if (position > 87) {
+			// Reset the position to the left
+			position = 0;
+		}
 	};
 
 	const handleKeydown = (event) => {
