@@ -2,10 +2,13 @@
 	import { getContext, onMount } from 'svelte';
 	import blueFace from '$lib/images/blueFace.png';
 	import platform from '$lib/images/platform.png';
+	export let score;
+	export let toggled;
 	let canvasElement: HTMLCanvasElement;
 	let boardWidth = 700;
 	let boardHeight = 900;
 	let ctx;
+	let gameOver = false;
 
 	// doodler
 	let doodlerWidth = 90;
@@ -14,11 +17,20 @@
 	let doodlerY = (boardHeight * 7) / 8 - doodlerHeight;
 	let doodlerImg;
 
+	let doodler = {
+		img: null,
+		x: doodlerX,
+		y: doodlerY,
+		width: doodlerWidth,
+		height: doodlerHeight
+	};
+
 	//physics
 	let velocityX = 0;
 	let velocityY = 0;
-	let initialVelocityY = -12;
+	let initialVelocityY = -10;
 	let gravity = 0.4;
+
 	//platforms;
 	let platformArray = [];
 	let platformWidth = 120;
@@ -28,19 +40,16 @@
 	const handleKey = (event) => {
 		if (event.key === 'ArrowLeft' && velocityX != -4) {
 			velocityX -= 4;
-		}
-		if (event.key === 'ArrowRight' && velocityX != 4) {
+		} else if (event.key === 'ArrowRight' && velocityX != 4) {
 			velocityX += 4;
+		} else if (event.key === ' ' && gameOver) {
+			console.log('clicked space');
+			//reset
+			toggled = !toggled;
+			score = 0;
 		}
 	};
 
-	let doodler = {
-		img: null,
-		x: doodlerX,
-		y: doodlerY,
-		width: doodlerWidth,
-		height: doodlerHeight
-	};
 	onMount(() => {
 		ctx = canvasElement.getContext('2d');
 		canvasElement.width = boardWidth;
@@ -61,6 +70,9 @@
 		requestAnimationFrame(update);
 	});
 	const update = () => {
+		if (gameOver) {
+			return;
+		}
 		requestAnimationFrame(update);
 		ctx.clearRect(0, 0, boardWidth, boardHeight);
 		doodler.x += velocityX;
@@ -71,14 +83,30 @@
 		}
 		velocityY += gravity;
 		doodler.y += velocityY;
+		if (doodler.y > boardHeight) {
+			gameOver = true;
+		}
 		ctx.drawImage(doodlerImg, doodler.x, doodler.y, doodler.width, doodler.height);
 
 		for (let i = 0; i < platformArray.length; i++) {
 			let platform = platformArray[i];
-			if (detectCollision(doodler, platform)) {
+			if (velocityY < 0 && doodler.y < (boardHeight * 3) / 4) {
+				platform.y -= initialVelocityY;
+				score += 1;
+			}
+			if (detectCollision(doodler, platform) && velocityY > 0) {
 				velocityY = initialVelocityY;
 			}
 			ctx.drawImage(platformImg, platform.x, platform.y, platform.width, platform.height);
+		}
+		while (platformArray.length > 0 && platformArray[0].y >= boardHeight) {
+			platformArray.shift();
+			newPlatform();
+		}
+		if (gameOver) {
+			ctx.font = '30px serif';
+			ctx.fillStyle = 'blue';
+			ctx.fillText("Game Over: Press 'Space' to Restart", boardWidth / 5, (boardHeight * 7) / 8);
 		}
 	};
 
@@ -92,10 +120,25 @@
 			height: platformHeight
 		};
 		platformArray.push(platform);
-		platform = {
+		for (let i = 0; i < 6; i++) {
+			let randomX = Math.floor((Math.random() * boardWidth * 3) / 4);
+			platform = {
+				img: platformImg,
+				x: randomX / 2,
+				y: boardHeight - 120 * i - 240,
+				width: platformWidth,
+				height: platformHeight
+			};
+			platformArray.push(platform);
+		}
+	};
+
+	const newPlatform = () => {
+		let randomX = Math.floor((Math.random() * boardWidth * 3) / 4);
+		let platform = {
 			img: platformImg,
-			x: boardWidth / 2,
-			y: boardHeight - 240,
+			x: randomX / 2,
+			y: -platformHeight,
 			width: platformWidth,
 			height: platformHeight
 		};
