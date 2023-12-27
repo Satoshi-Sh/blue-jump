@@ -105,7 +105,7 @@
 		if (gameOver) {
 			ctx.font = '30px serif';
 			ctx.fillStyle = 'blue';
-			ctx.fillText("Game Over: Press 'Space' to Restart", boardWidth / 5, (boardHeight * 7) / 8);
+			ctx.fillText("Game Over: Press 'Space' to Restart", boardWidth / 8, (boardHeight * 7) / 8);
 		}
 	};
 
