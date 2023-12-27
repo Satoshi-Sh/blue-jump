@@ -2,6 +2,12 @@
 
 Followed this [tutorial](https://www.youtube.com/watch?v=pHFtOYU-a20) to implement the basic feature of Doodle Jump, and modified code to utilize Suvelte reactivity.
 
+## Play Demo
+
+![Blue Jump Play Demo](./short-demo-jump.gif)
+
+You can play the game [here](https://satoshi-sh.github.io/blue-jump/)
+
 # create-svelte
 
 Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
