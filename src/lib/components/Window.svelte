@@ -43,7 +43,6 @@
 		} else if (event.key === 'ArrowRight' && velocityX != 4) {
 			velocityX += 4;
 		} else if (event.key === ' ' && gameOver) {
-			console.log('clicked space');
 			//reset
 			toggled = !toggled;
 			score = 0;

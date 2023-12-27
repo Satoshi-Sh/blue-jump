@@ -1,3 +1,7 @@
+# Background
+
+Followed this [tutorial](https://www.youtube.com/watch?v=pHFtOYU-a20) to implement the basic feature of Doodle Jump, and modified code to utilize Suvelte reactivity.
+
 # create-svelte
 
 Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
