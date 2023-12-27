@@ -5,8 +5,8 @@
 	export let score;
 	export let toggled;
 	let canvasElement: HTMLCanvasElement;
-	let boardWidth = 700;
-	let boardHeight = 900;
+	let boardWidth = 600;
+	let boardHeight = 750;
 	let ctx;
 	let gameOver = false;
 
@@ -124,7 +124,7 @@
 			platform = {
 				img: platformImg,
 				x: randomX / 2,
-				y: boardHeight - 120 * i - 240,
+				y: boardHeight - 120 * i - 200,
 				width: platformWidth,
 				height: platformHeight
 			};
