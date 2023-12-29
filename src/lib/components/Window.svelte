@@ -123,7 +123,7 @@
 			let randomX = Math.floor((Math.random() * boardWidth * 3) / 4);
 			platform = {
 				img: platformImg,
-				x: randomX / 2,
+				x: randomX,
 				y: boardHeight - 120 * i - 200,
 				width: platformWidth,
 				height: platformHeight
@@ -136,7 +136,7 @@
 		let randomX = Math.floor((Math.random() * boardWidth * 3) / 4);
 		let platform = {
 			img: platformImg,
-			x: randomX / 2,
+			x: randomX,
 			y: -platformHeight,
 			width: platformWidth,
 			height: platformHeight
