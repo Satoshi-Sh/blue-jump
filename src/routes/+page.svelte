@@ -1,17 +1,23 @@
 <script>
+	import Opening from '$lib/components/Opening.svelte';
 	import Window from '$lib/components/Window.svelte';
 	let score = 0;
 	let toggled = false;
+	let isStarted = false;
 </script>
 
 <svelte:head>
 	<title>Blue Jump</title>
 </svelte:head>
 <h1>Blue Jump</h1>
-<p>Score: {score}</p>
-{#key toggled}
-	<Window bind:score bind:toggled />
-{/key}
+{#if !isStarted}
+	<Opening bind:isStarted />
+{:else}
+	<p>Score: {score}</p>
+	{#key toggled}
+		<Window bind:score bind:toggled />
+	{/key}
+{/if}
 
 <style>
 	h1 {
