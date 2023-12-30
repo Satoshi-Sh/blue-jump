@@ -8,6 +8,7 @@
 	import failure from '$lib/music/failure.mp3';
 	export let score;
 	export let toggled;
+	export let isMuted;
 	let jumpPlayer;
 	let canvasElement: HTMLCanvasElement;
 	let boardWidth = 600;
@@ -100,8 +101,10 @@
 			}
 			if (detectCollision(doodler, platform) && velocityY > 0) {
 				velocityY = initialVelocityY;
-				jumpPlayer.currentTime = 0;
-				jumpPlayer.play();
+				if (!isMuted) {
+					jumpPlayer.currentTime = 0;
+					jumpPlayer.play();
+				}
 			}
 			ctx.drawImage(platformImg, platform.x, platform.y, platform.width, platform.height);
 		}
@@ -160,9 +163,11 @@
 
 <svelte:window on:keydown|preventDefault={handleKey} />
 <div>
-	<AudioPlayer src={music} isLoop={true} isPause={gameOver} />
-	{#if gameOver}
-		<AudioPlayer src={failure} />
+	{#if !isMuted}
+		<AudioPlayer src={music} isLoop={true} isPause={gameOver} />
+		{#if gameOver}
+			<AudioPlayer src={failure} />
+		{/if}
 	{/if}
 	<canvas bind:this={canvasElement} />
 	<audio src={jump} preload="auto" bind:this={jumpPlayer} controls> </audio>

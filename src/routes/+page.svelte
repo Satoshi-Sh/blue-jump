@@ -4,6 +4,7 @@
 	let score = 0;
 	let toggled = false;
 	let isStarted = false;
+	let isMuted = false;
 </script>
 
 <svelte:head>
@@ -11,11 +12,11 @@
 </svelte:head>
 <h1>Blue Jump</h1>
 {#if !isStarted}
-	<Opening bind:isStarted />
+	<Opening bind:isMuted bind:isStarted />
 {:else}
 	<p>Score: {score}</p>
 	{#key toggled}
-		<Window bind:score bind:toggled />
+		<Window bind:score bind:toggled {isMuted} />
 	{/key}
 {/if}
 
