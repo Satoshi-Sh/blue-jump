@@ -1,7 +1,11 @@
 <script>
 	import blue from '$lib/images/blue-cropped.png';
 	export let isStarted;
+	export let isMuted;
 
+	const toggleMute = () => {
+		isMuted = !isMuted;
+	};
 	const startGame = () => {
 		isStarted = true;
 	};
@@ -16,7 +20,14 @@
 <div>
 	<img src={blue} alt="dog staring" />
 	<p>Please bring me for a walk...</p>
-	<button on:click={startGame}>Start the game</button>
+	<button on:click={toggleMute}>
+		{#if isMuted}
+			<i class="fas fa-volume-mute"></i> <!-- Mute icon -->
+		{:else}
+			<i class="fas fa-volume-up"></i> <!-- Audio icon -->
+		{/if}
+	</button>
+	<button class="start-button" on:click={startGame}>Start the game</button>
 </div>
 
 <style>
@@ -25,12 +36,13 @@
 		flex-direction: column;
 		align-items: center;
 	}
-	button {
+	.start-button {
+		margin: 10px;
 		width: fit-content;
 		background-color: burlywood;
 		padding: 5px;
 	}
-	button:hover {
+	.start-button:hover {
 		background-color: blue;
 		color: white;
 		cursor: pointer;
