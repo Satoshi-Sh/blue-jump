@@ -2,8 +2,13 @@
 	import { getContext, onMount } from 'svelte';
 	import blueFace from '$lib/images/blueFace.png';
 	import platform from '$lib/images/platform.png';
+	import AudioPlayer from '$lib/components/AudioPlayer.svelte';
+	import jump from '$lib/music/jump.mp3';
+	import music from '$lib/music/main-music.mp3';
+	import failure from '$lib/music/failure.mp3';
 	export let score;
 	export let toggled;
+	let jumpPlayer;
 	let canvasElement: HTMLCanvasElement;
 	let boardWidth = 600;
 	let boardHeight = 750;
@@ -95,6 +100,8 @@
 			}
 			if (detectCollision(doodler, platform) && velocityY > 0) {
 				velocityY = initialVelocityY;
+				jumpPlayer.currentTime = 0;
+				jumpPlayer.play();
 			}
 			ctx.drawImage(platformImg, platform.x, platform.y, platform.width, platform.height);
 		}
@@ -153,7 +160,12 @@
 
 <svelte:window on:keydown|preventDefault={handleKey} />
 <div>
+	<AudioPlayer src={music} isLoop={true} isPause={gameOver} />
+	{#if gameOver}
+		<AudioPlayer src={failure} />
+	{/if}
 	<canvas bind:this={canvasElement} />
+	<audio src={jump} preload="auto" bind:this={jumpPlayer} controls> </audio>
 </div>
 
 <style>
@@ -161,6 +173,9 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
+	}
+	audio {
+		display: none;
 	}
 	canvas {
 		background-color: lightcyan;
